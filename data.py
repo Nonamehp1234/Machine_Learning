@@ -22,7 +22,6 @@ current_file = os.getcwd() +'\\' 'training_dataset\\'
 colors = ['black', 'blue', 'red', 'orange', 'yellow', 'white', 'green', 'violet']
 
 
-
 # Check file image is : jpg or png. Not all - > return '' or ""
 def check_path_open(path_colors):
     if type(cv2.imread(path_colors + '.png')) is np.ndarray:

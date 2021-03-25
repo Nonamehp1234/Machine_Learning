@@ -20,6 +20,18 @@ current_file = os.getcwd() +'\\' 'training_dataset\\'
 # Clustering Eight Colors to Recogition
 colors = ['black', 'blue', 'red', 'orange', 'yellow', 'white', 'green', 'violet']
 
+# Return number color . Example return number red image , blue image ,.....
+def num_color(list):
+    len_color = []
+    i , length = 0 , 0
+    for index in range(len(list)):
+        if list[index][3] == colors[i]:
+            length += 1
+        else:
+            i += 1
+            len_color.append(length)
+            length = 1
+    return len_color
 
 # Return name colors of image to function self.name_color.
 def color_image(image):

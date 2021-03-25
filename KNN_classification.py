@@ -1,8 +1,10 @@
 import numpy as np
 import csv
 import process_data
+import random
 
-
+# Code algorithm K-nearest-neighbor.
+'''
 def predict_color(list):
     index = list.index(min(list))
     return index
@@ -17,7 +19,14 @@ def distance_Euclid(img , data_store):
         sum = 0
     _index = predict_color(list)
     print(data_store[_index][3])
+'''
 
+# Code algorithm K-means.
+class K_means:
+    def __init__(self):
+        super().__init__()
+
+    
 
 def open_data():
     list = []
@@ -28,9 +37,8 @@ def open_data():
     return list
 
 
+
 if __name__ == "__main__":
-    img = process_data.Image("C:/Users/Administrator/Downloads/1.jpg")
-    img1 = process_data.Image_Averange("C:/Users/Administrator/Downloads/1.jpg")
     list_data = open_data()
-    distance_Euclid(img , list_data)
-    distance_Euclid(img1 , list_data)
+    len_color = process_data.num_color(list_data)
+    print(len_color)  
