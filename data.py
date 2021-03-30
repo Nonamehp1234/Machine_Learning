@@ -32,12 +32,14 @@ def check_path_open(path_colors):
         return ""
 
 # Write string (B,G,R,name_color) - > file excel csv.
+
 def write_csv(feature):
     with open('data_averange.csv' , 'w' , newline = "") as file:
         write = csv.writer(file)
         write.writerows(feature)
 
 # Read file color black - > violet
+
 def read_file(path):
     feature = []
     for index in range(len(colors)):
@@ -51,6 +53,7 @@ def read_file(path):
                 i += 1
 
         path = current_file
+        
     # Write feature -> excel csv.
     write_csv(feature)
 

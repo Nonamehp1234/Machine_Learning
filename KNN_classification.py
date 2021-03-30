@@ -4,12 +4,16 @@ import process_data
 import random
 
 # Code algorithm K-nearest-neighbor.
-'''
+class K_nearest_neighbor:
+    def __init__(self):
+        super().__init__()
+
+
 def predict_color(list):
     index = list.index(min(list))
     return index
 
-
+'''
 def distance_Euclid(img , data_store):
     sum = 0
     list = []
@@ -23,22 +27,43 @@ def distance_Euclid(img , data_store):
 
 # Code algorithm K-means.
 class K_means:
+
+    # Create init K - Cluster ( K : number color find )
     def __init__(self):
-        super().__init__()
 
-    
+        list = []
+        with open('random_data.csv' , 'r') as file:
+            writer = csv.reader(file)
+            for index in writer:
+                list.append(index)
 
-def open_data():
-    list = []
-    with open("data_max.csv" , 'r') as file:
-        writer = csv.reader(file)
-        for write in writer:
-            list.append(write)
-    return list
+        self.cluster = list
+
+
+    # Check color previous and after have change
+    def check(self , colors_new , colors_present):
+        return (colors_new == colors_present)
+
+
+    # Run algorithms K - means.
+    def algorithm(self):
+
+        list_data = process_data.open_file()
+        colors_present = []
+        colors_new = []
+        
+        while check(colors_new , colors_present) != True:
+
+            if len(colors_present) == 0:
+                for index in range(len(list_data)):
+                    colors_present.append(process_data.norm_2(list_data[index] , self.cluster))
+
+            present , cluster_new = process_data.cluster_color(colors_present , list_data)        
+
 
 
 
 if __name__ == "__main__":
-    list_data = open_data()
-    len_color = process_data.num_color(list_data)
-    print(len_color)  
+    problem = K_means()
+    problem.algorithm()
+    
