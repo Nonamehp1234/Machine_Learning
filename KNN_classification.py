@@ -2,68 +2,86 @@ import numpy as np
 import csv
 import process_data
 import random
+import heapq
+from collections import Counter
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+
+
+# Convert array list to array numpy.
+data = np.asarray(process_data.open_file('max'))
+
+# Train is 70 percent size data and test is 30 percent size data.
+X_train, X_test, Y_train, Y_test = train_test_split(data[:, :3], data[:, 3], test_size=0.3, random_state=1)
+X_train, X_test = np.array(X_train, dtype=int), np.array(X_test, dtype=int)
+
 
 # Code algorithm K-nearest-neighbor.
-class K_nearest_neighbor:
-    def __init__(self):
-        super().__init__()
+class Knearestneighbor:
+    # Create init K - nearest - neighbors.
+    def __init__(self, k_nearest=1, norm=2, random_image=False):
+        self.k_nearest = k_nearest
+        self.norm = norm
 
+    # Understand x is : test data.
+    def predict_Knearest(self):
+        if self.k_nearest == 1:
+            predict = []
+            for test in X_test:
+                list = process_data.norm(X_train, test, self.norm)
+                predict.append(Y_train[list.index(min(list))])
+            print("Accuracy of 1NN: %.2f %%" % (100 * accuracy_score(Y_test, predict)))
+            del predict
+        elif 1 < self.k_nearest <= X_train.shape[0]:
+            predict = []
+            for test in X_test:
+                list_color = []
+                list = process_data.norm(X_train, test, self.norm)
+                for iteration in range(self.k_nearest):
+                    list_color.append(Y_train[list.index(min(list))])
+                    list[list.index(min(list))] = max(list)
+                predict.append(max(list_color, key=list_color.count))
+                del list_color
+            print("Accuracy of {0}NN: {1} %%".format(self.k_nearest, (100 * accuracy_score(Y_test, predict))))
+            del predict
+        else:
+            raise Exception('K-nearest not exceed {}.'.format(self.k_nearest))
 
-def predict_color(list):
-    index = list.index(min(list))
-    return index
+    # Use specific realtime.
+    def use(self):
+        pass
 
-'''
-def distance_Euclid(img , data_store):
-    sum = 0
-    list = []
-    for index in range(len(data_store)):
-        sum += (int(data_store[index][0]) - img.blue)**2 + (int(data_store[index][1]) - img.green)**2 + (int(data_store[index][2]) - img.red)**2 
-        list.append(sum)
-        sum = 0
-    _index = predict_color(list)
-    print(data_store[_index][3])
-'''
 
 # Code algorithm K-means.
-class K_means:
+class Kmeans:
 
-    # Create init K - Cluster ( K : number color find )
-    def __init__(self):
+    # Create init K - means.
+    def __init__(self, k_cluster=len(process_data.colors), norm=2):
+        # Count K cluster include : red , green , blue , violet , black , orange , yellow , white.
+        self.K_cluster = len(process_data.colors)
+        # Point cluster init random.
+        self.cluster = X_train[np.random.choice(X_train.shape[0], self.K_cluster)]
+        self.norm = norm
 
-        list = []
-        with open('random_data.csv' , 'r') as file:
-            writer = csv.reader(file)
-            for index in writer:
-                list.append(index)
-
-        self.cluster = list
-
-
-    # Check color previous and after have change
-    def check(self , colors_new , colors_present):
-        return (colors_new == colors_present)
-
-
-    # Run algorithms K - means.
-    def algorithm(self):
-
-        list_data = process_data.open_file()
-        colors_present = []
-        colors_new = []
-        
-        while check(colors_new , colors_present) != True:
-
-            if len(colors_present) == 0:
-                for index in range(len(list_data)):
-                    colors_present.append(process_data.norm_2(list_data[index] , self.cluster))
-
-            present , cluster_new = process_data.cluster_color(colors_present , list_data)        
-
-
+    # Implement algorithms K - means.
+    def algorithms_kmeans(self):
+        """
+          Step 1 : init k cluster -> Finished.
+          Step 2 : Calculator distance between two data points with three parameters :
+          + Blue channels.
+          + Green channels.
+          + Red channels.
+        """
+        present = []
+        for train in X_train:
+            present.append(process_data.norm(cluster, train, self.norm))
+        present = np.asarray(present)
+        _, index = np.unique(present, return_counts=True)
+        while True:
+            pass
 
 
 if __name__ == "__main__":
-    problem = K_means()
-    problem.algorithm()
-    
+    clf = Knearestneighbor(k_nearest=1, norm=2)
+    _clf = Knearestneighbor(k_nearest=5, norm=2)
+    print(clf.predict_Knearest())

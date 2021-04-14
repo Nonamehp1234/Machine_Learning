@@ -4,7 +4,7 @@ def count_substring(string, sub_string):
         return 0
     else:
         count = 0
-        i , j = 0 , 0
+        i, j = 0, 0
         while i < len(string):
             
             if string[i] == sub_string[j]:

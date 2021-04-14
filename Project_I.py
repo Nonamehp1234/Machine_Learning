@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton
+from PyQt5.QtWidgets import (QMainWindow, QApplication, QPushButton)
 import sys
+
 
 class Window(QMainWindow):
     def __init__(self):
@@ -14,11 +15,12 @@ class Window(QMainWindow):
     
     def InitWindow(self):
         self.setWindowTitle(self.title)
-        self.setGeometry(self.left , self.top , self.width , self.height)
-        button = QPushButton('Pyqt5 button' , self)
-        button.move(100,70)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+        button = QPushButton('Pyqt5 button', self)
+        button.move(500, 200)
         button.setToolTip('This is the  button')
         self.show()
+
 
 App = QApplication(sys.argv)
 window = Window()
