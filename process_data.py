@@ -24,6 +24,12 @@ colors = ['black', 'blue', 'red', 'orange', 'yellow', 'white', 'green', 'violet'
 
 # Open file
 def open_file(string='max'):
+    """
+        # Open file and save 4 features in list.
+
+    :param string: algorithms max or average.
+    :return: Return list
+    """
     with open('data_max.csv' if string == 'max' else 'data_average.csv', 'r') as file:
         reader = csv.reader(file)
         list = []
@@ -35,6 +41,11 @@ def open_file(string='max'):
 
 # Return number color . Example return number red image , blue image ,.....
 def num_color(list):
+    """
+
+    :param list:
+    :return:
+    """
     len_color = []
     i, length = 0, 0
 
@@ -52,8 +63,14 @@ def num_color(list):
 
 # Find new cluster color : red , orange , blue , green , .... (change cluster present)
 
-def cluster_color(list, list_data):
-    clustercolor = []
+def new_cluster(list, list_data):
+    """
+
+    :param list: list colors
+    :param list_data: list data
+    :return: new cluster.
+    """
+    cluster_new = []
 
     for i in range(len(colors)):
         sum_blue, sum_green, sum_red = 0, 0, 0
@@ -66,45 +83,66 @@ def cluster_color(list, list_data):
                 sum_red += float(list_data[j][2])
 
         sum_blue, sum_green, sum_red = sum_blue / count, sum_green / count, sum_red / count
-        cluster_color.append([sum_blue, sum_green, sum_red, colors[i]])
-    return cluster_color
+        cluster_new.append([sum_blue, sum_green, sum_red])
+    return cluster_new
 
 
 # Calculator norm p = 2 or distance Euclid.
-def norm(X_train, test, p=2):
+def norm(X, Y, p=2):
+    """
+        Norm is calculate dimension X and dimensions Y with norm = p distance.
+        X = [x1,x2,...,xn]
+        Y = [y1,y2,...,yn]
+        distance = [|x1-y1| ** p + |x2-y2| ** p + ... + |xn-yn| ** p] ** (1/p)
+        The most common norm we use is p = 1, p = 2, p = 3 , p = infinity.
+
+
+    :param X: n dimension
+    :param Y: n dimension
+    :param p: p is norm
+    :return: List distance with X,Y and p
+    """
     list = []
     # Algorithms distance Euclid.
-    for i in range(len(X_train)):
+    for i in range(len(X)):
         sum = 0
         for j in range(0, 3):
-            sum += (X_train[i][j] - test[j]) ** p
+            sum += (X[i][j] - Y[j]) ** p
         list.append(sum)
     return list
 
 
 # Return name colors of image to function self.name_color.
-def color_image(image):
+def color_image(path_file_image):
+    """
+
+    :param path_file_image:
+    :return: image have colors red, black, green, blue , vvvv?
+    """
     for index in range(len(colors)):
-        if colors[index] in image:
+        if colors[index] in path_file_image:
             return colors[index]
-
-
-# Present color use K-means
-def present_color(list_data, list_color, list_cluster):
-    if len(list_color) == 0:
-        for index in range(len(list_data)):
-            list_color.append(norm(list_data[index], list_cluster))
-
-    print(list_color)
 
 
 # Resize image original to image have size (width = 64, length = 64) because Laptop easy calculator
 def resize_image(img):
+    """
+
+    :param img: Image source : maybe image gray or image RGB or image BGR ,.....
+
+    :return: Resize image source width width and length -> width = 64, length = 64
+            - Note: Image source width and length above 64.
+    """
     return cv2.resize(img, (64, 64))
 
 
 # Count histogram
 def count_histogram(image):
+    """
+
+    :param image:
+    :return:
+    """
     # Create init matrix numpy size(3,256) is zeros.
     histogram = np.zeros((3, 256), dtype=np.int64)
     image = np.array(image, dtype=np.int64)
@@ -187,7 +225,7 @@ class Image_Average:
         self.path = path_image
         self.read_path_img()
 
-    # Convert jpg or png - > matrix
+    # Convert jpg or png - > matrix.
     def read_path_img(self):
 
         # Read image

@@ -31,8 +31,8 @@ def check_path_open(path_colors):
 
 
 # Write string (B,G,R,name_color) - > file excel csv.
-def write_csv(feature, string='max'):
-    with open('data_max.csv' if string == 'max' else 'data_average', 'w', newline="") as file:
+def write_csv(feature, algorithms='max'):
+    with open('data_max.csv' if algorithms == 'max' else 'data_average', 'w', newline="") as file:
         write = csv.writer(file)
         write.writerows(feature)
 
